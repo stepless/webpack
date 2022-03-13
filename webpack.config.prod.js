@@ -1,8 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: 'development',      //生成的js文件的内容格式，development 是生成带有注释的，代码按照格式书写的；production 不带注释，代码写到一行上，尽量的减小大小。
+  mode: 'production',      //生成的js文件的内容格式，development 是生成带有注释的，代码按照格式书写的；production 不带注释，代码写到一行上，尽量的减小大小。
   devtool:'inline-source-map',
   devServer:{
       contentBase:'./dist'
@@ -16,12 +17,25 @@ module.exports = {
       title:'可以使用我的标题',      //如果模板中没有title标签就用这个title，如果想要手动设置使用这个title就要模板中的title的内容写为<title><%= htmlWebpackPlugin.options.title %></title>
       template:'src/index.html'         //生成的html文件里面的内容是以template指定的路径下的html文件为模板
     }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
+      ignoreOrder:false,
+    }),
   ],
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: "../",
+              },
+            },
+            "css-loader",
+          ],
       },
     ],
   },
