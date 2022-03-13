@@ -16,13 +16,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title:'可以使用我的标题',      //如果模板中没有title标签就用这个title，如果想要手动设置使用这个title就要模板中的title的内容写为<title><%= htmlWebpackPlugin.options.title %></title>
       template:'src/index.html'         //生成的html文件里面的内容是以template指定的路径下的html文件为模板
-    },
+    }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
       ignoreOrder:false,
     }),
-  )],
+  ],
   module: {
     rules: [
       {
